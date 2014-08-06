@@ -48,7 +48,7 @@ Element providing solution to no problem in particular.
 @homepage http://polymerlabs.github.io/seed-element
 -->
 <polymer-element name="knd-loginform"
-                 attributes="localauthurl googleauthurl facebookauthurl twiterauthurl registerurl">
+                 attributes="localauthurl googleauthurl facebookauthurl twiterauthurl registerurl, formUsernameName,formpasswordname">
 
     <template>
 
@@ -120,6 +120,8 @@ Element providing solution to no problem in particular.
                 registerurl: null,
                 emaillogin: "",
                 passwordlogin: "",
+                formUsernameName: "username",
+                formpasswordname: "password",
                 observe: {
                     emaillogin: 'validate',
                     passwordlogin: 'validate'
@@ -184,8 +186,8 @@ Element providing solution to no problem in particular.
             },
             getParams: function () {
                 params = {};
-                params["username"] = this.$.emaillogin;
-                params["password"] = this.$.passwordlogin;
+                params[this.formpasswordname] = this.$.emaillogin;
+                params[this.formpasswordname] = this.$.passwordlogin;
                 return params;
 
             },
@@ -209,7 +211,7 @@ Element providing solution to no problem in particular.
             registerAuthClick: function () {
                 console.debug("registerAuthClick");
                 //this.$.postForm(this.$.localauthurl, this.$.getRegisterParams, "post");
-            },
+            }
         })
         ;
 
