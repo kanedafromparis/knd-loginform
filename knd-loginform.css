@@ -1,0 +1,33 @@
+/* To ensure your styling works under the Shadow DOM polyfill, see
+   www.polymer-project.org/docs/polymer/styling.html#directives */
+
+
+.loginPassword {
+    height: 24px;
+    width: 64px;
+}
+.loginUsername {
+    height: 24px;
+    width: 128px;
+}
+
+core-icon-button {
+    cursor: pointer;
+    padding: 0px;
+    font-size: 16px;
+    fill: #000000;
+    color: blue;
+    height: 24px;
+    width: 24px;
+}
+core-icon-button:hover {
+    fill: #fb8c00;
+}
+
+.top-logindiv {
+    height : auto;
+}
+.bottom-logindiv{
+
+}
+

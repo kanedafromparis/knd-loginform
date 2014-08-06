@@ -1,0 +1,217 @@
+<link rel="import"
+      href="../polymer/polymer.html">
+paper-input
+core-icon-button
+ajax-form
+
+
+<link rel="import"
+      href="../core-icon/core-icon.html">
+<link rel="import"
+      href="../core-iconset/core-iconset.html">
+<link rel="import"
+      href="../core-iconset-svg/core-iconset-svg.html">
+<link rel="import"
+      href="../core-icons/iconsets/social-icons.html">
+<link rel="import"
+      href="../core-icon-button/core-icon-button.html">
+
+<link rel="import"
+      href="../core-tooltip/core-tooltip.html">
+
+
+<link rel="import"
+      href="../paper-input/paper-input.html">
+
+<link rel="import"
+      href="../ajax-form/ajax-form.html">
+<link rel="import"
+      href="iconsets/knd-loginformicons.html">
+<script src="../underscore/underscore.js"></script>
+<script src="../underscore.string/lib/underscore.string.js"></script>
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <knd-loginform
+    localauthurl="/login"
+    googleauthurl="/auth/google"
+    facebookauthurl="/auth/facebook"
+     twiterauthurl="/auth/twitter"
+      registerurl="/signup"
+    ></knd-loginform>
+
+@element knd-loginform
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://polymerlabs.github.io/seed-element
+-->
+<polymer-element name="knd-loginform"
+                 attributes="localauthurl googleauthurl facebookauthurl twiterauthurl registerurl">
+
+    <template>
+
+        <link rel="stylesheet"
+              href="knd-loginform.css"/>
+
+
+        <section>
+            <form is="ajax-form" action="test" method="post">
+                <template if="{{ localauthurl }}">
+                    <div class="top-logindiv">
+                        <paper-input id="username_input" name="login" floatingLabel label="Saisir votre login"
+                                     class="loginUsername"
+                                     type="email" value="{{emaillogin}}" required="false">
+                        </paper-input>
+                        <paper-input id="password_input" name="password" floatingLabel label="Saisir votre password"
+                                     class="loginPassword"
+                                     type="password" value="{{passwordlogin}}" required="false">
+                        </paper-input>
+                        <core-tooltip label="Loggez vous" position="right">
+                            <core-icon-button id="local_login_button" src="iconsets/iconmonstr-login-2-icon.svg"
+                                              on-click="{{localAuthClick}}" active="false"></core-icon-button>
+                        </core-tooltip>
+                    </div>
+                </template>
+                <div class="bottom-logindiv">
+                    <template if="{{ googleauthurl }}">
+                        <core-tooltip label="Loggez vous via google+" position="right">
+                            <core-icon-button src="iconsets/iconmonstr-google-plus-5-icon.svg"
+                                              on-click="{{gPlusAuthClick}}"></core-icon-button>
+                        </core-tooltip>
+                    </template>
+                    <template if="{{ facebookauthurl }}">
+                        <core-tooltip label="Loggez vous via facebook" position="right">
+                            <core-icon-button src="iconsets/iconmonstr-facebook-5-icon.svg"
+                                              on-click="{{facebookAuthClick}}"></core-icon-button>
+                        </core-tooltip>
+                    </template>
+                    <template if="{{ twiterauthurl }}">
+                        <core-tooltip label="Loggez vous via twitter" position="right">
+                            <core-icon-button src="iconsets/iconmonstr-twitter-5-icon.svg"
+                                              on-click="{{twitterAuthClick}}"></core-icon-button>
+                        </core-tooltip>
+                    </template>
+                    <template if="{{ registerurl }}">
+                        <core-tooltip label="Clicker pour vous enregistrer" position="right">
+                            <core-icon-button src="iconsets/iconmonstr-save-7-icon.svg"
+                                              on-click="{{registerAuthClick}}"></core-icon-button>
+                        </core-tooltip>
+                    </template>
+
+                </div>
+            </form>
+        </section>
+        </div>
+        <div></div>
+        <content></content>
+
+    </template>
+
+    <script>
+        _.mixin(_.str.exports());
+        Polymer('knd-loginform', {
+            publish: {
+                localauthurl: null,
+                googleauthurl: null,
+                facebookauthurl: null,
+                twiterauthurl: null,
+                registerurl: null,
+                emaillogin: "",
+                passwordlogin: "",
+                observe: {
+                    emaillogin: 'validate',
+                    passwordlogin: 'validate'
+                }
+
+            },
+            validate: function(oldValue, newValue) {
+                console.log("emailloginUpdate" + JSON.stringify(oldValue) + " - " + JSON.stringify(newValue));
+            },
+            /* do not seems to works ;-)*/
+            emailloginChanged: function () {
+                if ((typeof this.emaillogin != "undefined") ||
+                        (this.emaillogin.length < 8) ||
+                        (_.includes(this.emaillogin, "@"))) {
+                    this.$.username_input.require = true;
+                    this.$.local_login_button.active = false;
+                    console.log("emailloginChange");
+                    /**
+                     * @TODO check that it does work with auto filled form
+                     */
+                }
+            },
+            emailloginUpdated: function (observer, mutations) {
+                // getDistributedNodes() has new stuff.
+
+                // Monitor again.
+                console.log("emailloginUpdate" + JSON.stringify(observer) + " - " + JSON.stringify(mutations));
+            },
+            passwordloginChanged: function () {
+                if ((typeof this.passwordlogin != "undefined") ||
+                        this.passwordlogin.length < 8) {
+                    this.$.password_input.require = true;
+                    this.$.local_login_button.active = false;
+                    console.log("passwordloginChange");
+                    /**
+                     * @TODO check that it does work with auto filled form
+                     */
+                }
+            },/** */
+            postForm: function (path, params, method) {
+                method = method || "post"; // Set method to post by default if not specified.
+
+                // The rest of this code assumes you are not using a library.
+                // It can be made less wordy if you use one.
+                var form = document.createElement("form");
+                form.setAttribute("method", method);
+                form.setAttribute("action", path);
+
+                for (var key in params) {
+                    if (params.hasOwnProperty(key)) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", key);
+                        hiddenField.setAttribute("value", params[key]);
+
+                        form.appendChild(hiddenField);
+                    }
+                }
+
+                document.body.appendChild(form);
+                form.submit();
+            },
+            getParams: function () {
+                params = {};
+                params["username"] = this.$.emaillogin;
+                params["password"] = this.$.passwordlogin;
+                return params;
+
+            },
+            localAuthClick: function () {
+                console.log("localAuthClick");
+                this.postForm(this.localauthurl, this.getParams, "post");
+            },
+            gPlusAuthClick: function () {
+                console.debug("gPlusAuthClick");
+                this.postForm(this.googleauthurl);
+            },
+            facebookAuthClick: function () {
+                console.debug("facebookAuthClick");
+                this.postForm(this.facebookauthurl);
+            },
+            twitterAuthClick: function () {
+                console.debug("twitterAuthClick");
+                this.postForm(this.$.twiterauthurl);
+            },
+            registerAuthClick: function () {
+                console.debug("registerAuthClick");
+                //this.$.postForm(this.$.localauthurl, this.$.getRegisterParams, "post");
+            },
+        })
+        ;
+
+    </script>
+
+</polymer-element>

@@ -1,0 +1,29 @@
+{
+  "name": "knd-loginform",
+  "version": "0.0.1",
+  "authors": [
+    "C. Sabourdin <kanedafromparis@gmail.com>"
+  ],
+  "description": "Element providing a login form, with register or google, twiter and facebook.",
+  "keywords": "loginform, polymer, web-components",
+  "main": "knd-loginform.html",
+  "license": "LGPLv3",
+  "homepage": "https://github.com/kanedafromparis/knd-loginform/",
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.3.3",
+    "polymer-test-tools": "Polymer/polymer-test-tools#~0.3.3",
+    "core-input": "Polymer/core-input#~0.3.4",
+    "core-icon": "Polymer/core-icon#~0.3.4",
+    "core-icons": "Polymer/core-icons#~0.3.4",
+    "core-iconset": "Polymer/core-iconset#~0.3.4",
+    "core-iconset-svg": "Polymer/core-iconset-svg#~0.3.4",
+    "core-icon-button": "Polymer/core-icon-button#~0.3.4",
+    "core-tooltip": "Polymer/core-tooltip#~0.3.4",
+    "ajax-form": "ajax-form#~0.2.2",
+    "underscore": "~1.6.0",
+    "underscore.string": "~2.3.3"
+  }
+}
