@@ -189,21 +189,22 @@ Element providing solution to no problem in particular.
                 return params;
 
             },
+
             localAuthClick: function () {
                 console.log("localAuthClick");
                 this.postForm(this.localauthurl, this.getParams, "post");
             },
             gPlusAuthClick: function () {
                 console.debug("gPlusAuthClick");
-                this.postForm(this.googleauthurl);
+                this.postForm(this.googleauthurl,{},"get");
             },
             facebookAuthClick: function () {
                 console.debug("facebookAuthClick");
-                this.postForm(this.facebookauthurl);
+                this.postForm(this.facebookauthurl,{},"get");
             },
             twitterAuthClick: function () {
                 console.debug("twitterAuthClick");
-                this.postForm(this.$.twiterauthurl);
+                this.postForm(this.twiterauthurl,{},"get");
             },
             registerAuthClick: function () {
                 console.debug("registerAuthClick");
