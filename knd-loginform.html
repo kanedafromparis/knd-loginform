@@ -50,7 +50,7 @@ Element providing solution to no problem in particular.
 @homepage http://polymerlabs.github.io/seed-element
 -->
 <polymer-element name="knd-loginform"
-                 attributes="localauthurl googleauthurl facebookauthurl twiterauthurl registerurl formUsernameName formpasswordname">
+                 attributes="localauthurl googleauthurl facebookauthurl twiterauthurl signupurl sendpasswordretrievurl formUsernameName formpasswordname">
 
 <template>
 
@@ -78,7 +78,7 @@ Element providing solution to no problem in particular.
                          type="password" value="{{passwordlogin}}" required="false">
             </paper-input>
             <core-icon-button id="local_retrieve_button" src="iconsets/iconmonstr-key-8-icon.svg"
-                              on-click="{{sendPasswordRetriveClick}}" active="false" affirmative></core-icon-button>
+                              on-click="{{sendSignupInfoClick}}" active="false" affirmative></core-icon-button>
             </core-tooltip></p>
     </paper-dialog>
 
@@ -120,11 +120,13 @@ Element providing solution to no problem in particular.
                                       on-click="{{twitterAuthClick}}"></core-icon-button>
                 </core-tooltip>
             </template>
-            <template if="{{ registerurl }}">
+            <template if="{{ signupurl }}">
                 <core-tooltip label="Clicker pour vous enregistrer" position="right">
                     <core-icon-button src="iconsets/iconmonstr-save-7-icon.svg"
                                       on-click="{{registerAuthClick}}"></core-icon-button>
                 </core-tooltip>
+            </template>
+            <template if="{{ sendpasswordretrievurl }}">
                 <core-tooltip label="Changer mon mot de passe" position="right">
                     <core-icon-button id="local_login_button" src="iconsets/iconmonstr-key-8-icon.svg"
                                       on-click="{{changePasswordDialogClick}}"
@@ -149,7 +151,8 @@ Element providing solution to no problem in particular.
             googleauthurl: null,
             facebookauthurl: null,
             twiterauthurl: null,
-            registerurl: null,
+            signupurl: null,
+            sendpasswordretrievurl: null,
             emaillogin: "",
             passwordlogin: "",
             formUsernameName: "username",
@@ -273,6 +276,12 @@ Element providing solution to no problem in particular.
         },
         sendPasswordRetriveClick: function () {
             console.debug("sendPasswordRetriveClick");
+            this.postForm(this.sendpasswordretrievurl, this.getParams, "post", "get");
+            //this.$.postForm(this.$.localauthurl, this.$.getRegisterParams, "post");
+        },
+        sendSignupInfoClick: function () {
+            console.debug("sendPasswordRetriveClick");
+            this.postForm(this.signupurl, this.getParams, "post", "get");
             //this.$.postForm(this.$.localauthurl, this.$.getRegisterParams, "post");
         }
 
