@@ -1,6 +1,6 @@
 {
   "name": "knd-loginform",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "authors": [
     "C. Sabourdin <kanedafromparis@gmail.com>"
   ],
@@ -22,7 +22,7 @@
     "core-iconset-svg": "Polymer/core-iconset-svg#~0.3.4",
     "core-icon-button": "Polymer/core-icon-button#~0.3.4",
     "core-tooltip": "Polymer/core-tooltip#~0.3.4",
-    "ajax-form": "ajax-form#~0.2.2",
+    "paper-dialog": "Polymer/paper-dialog#~0.3.4",
     "underscore": "~1.6.0",
     "underscore.string": "~2.3.3"
   }

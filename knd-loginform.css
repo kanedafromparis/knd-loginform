@@ -31,3 +31,19 @@ core-icon-button:hover {
 
 }
 
+paper-dialog {
+    width: 50%;
+    min-width: 430px;
+}
+
+.pdialogue {
+    margin-bottom: 0;
+}
+
+paper-dialog paper-button {
+    font-weight: bold;
+}
+
+paper-button[autofocus] {
+    color: #4285f4;
+}

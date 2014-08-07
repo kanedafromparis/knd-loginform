@@ -19,12 +19,14 @@ ajax-form
 <link rel="import"
       href="../core-tooltip/core-tooltip.html">
 
+<link rel="import"
+      href="../paper-dialog/paper-dialog-transition.html">
+<link rel="import"
+      href="../paper-dialog/paper-dialog.html">
 
 <link rel="import"
       href="../paper-input/paper-input.html">
 
-<link rel="import"
-      href="../ajax-form/ajax-form.html">
 <link rel="import"
       href="iconsets/knd-loginformicons.html">
 <script src="../underscore/underscore.js"></script>
@@ -48,173 +50,237 @@ Element providing solution to no problem in particular.
 @homepage http://polymerlabs.github.io/seed-element
 -->
 <polymer-element name="knd-loginform"
-                 attributes="localauthurl googleauthurl facebookauthurl twiterauthurl registerurl, formUsernameName,formpasswordname">
+                 attributes="localauthurl googleauthurl facebookauthurl twiterauthurl registerurl formUsernameName formpasswordname">
 
-    <template>
+<template>
 
-        <link rel="stylesheet"
-              href="knd-loginform.css"/>
+    <link rel="stylesheet"
+          href="knd-loginform.css"/>
+    <paper-dialog id="changeMailDialog" heading="Changer mon mot de passe" transition="paper-dialog-transition-center">
+        <p id="pdialogue">
+            <paper-input id="username_input" name="login" floatingLabel label="Saisir votre email"
+                         class="loginUsername"
+                         type="email" value="{{emaillogin}}" required="false">
+            </paper-input>
+            <core-icon-button id="local_login_button" src="iconsets/iconmonstr-key-8-icon.svg"
+                              on-click="{{sendPasswordRetriveClick}}" active="false" affirmative></core-icon-button>
+            </core-tooltip></p>
+    </paper-dialog>
+    <paper-dialog id="registerDialog" heading="Crée un compte" transition="paper-dialog-transition-center">
+        <p id="pdialogue">
+            <paper-input id="username_signup_input" name="login" floatingLabel label="Saisir votre login"
+                         class="loginUsername"
+                         type="email" value="{{emaillogin}}" required="false">
+            </paper-input>
+            <br>
+            <paper-input id="password_signup_input" name="password" floatingLabel label="Saisir votre mot de passe"
+                         class="loginUsername"
+                         type="password" value="{{passwordlogin}}" required="false">
+            </paper-input>
+            <core-icon-button id="local_retrieve_button" src="iconsets/iconmonstr-key-8-icon.svg"
+                              on-click="{{sendPasswordRetriveClick}}" active="false" affirmative></core-icon-button>
+            </core-tooltip></p>
+    </paper-dialog>
 
+    <section>
 
-        <section>
-            <form is="ajax-form" action="test" method="post">
-                <template if="{{ localauthurl }}">
-                    <div class="top-logindiv">
-                        <paper-input id="username_input" name="login" floatingLabel label="Saisir votre login"
-                                     class="loginUsername"
-                                     type="email" value="{{emaillogin}}" required="false">
-                        </paper-input>
-                        <paper-input id="password_input" name="password" floatingLabel label="Saisir votre password"
-                                     class="loginPassword"
-                                     type="password" value="{{passwordlogin}}" required="false">
-                        </paper-input>
-                        <core-tooltip label="Loggez vous" position="right">
-                            <core-icon-button id="local_login_button" src="iconsets/iconmonstr-login-2-icon.svg"
-                                              on-click="{{localAuthClick}}" active="false"></core-icon-button>
-                        </core-tooltip>
-                    </div>
-                </template>
-                <div class="bottom-logindiv">
-                    <template if="{{ googleauthurl }}">
-                        <core-tooltip label="Loggez vous via google+" position="right">
-                            <core-icon-button src="iconsets/iconmonstr-google-plus-5-icon.svg"
-                                              on-click="{{gPlusAuthClick}}"></core-icon-button>
-                        </core-tooltip>
-                    </template>
-                    <template if="{{ facebookauthurl }}">
-                        <core-tooltip label="Loggez vous via facebook" position="right">
-                            <core-icon-button src="iconsets/iconmonstr-facebook-5-icon.svg"
-                                              on-click="{{facebookAuthClick}}"></core-icon-button>
-                        </core-tooltip>
-                    </template>
-                    <template if="{{ twiterauthurl }}">
-                        <core-tooltip label="Loggez vous via twitter" position="right">
-                            <core-icon-button src="iconsets/iconmonstr-twitter-5-icon.svg"
-                                              on-click="{{twitterAuthClick}}"></core-icon-button>
-                        </core-tooltip>
-                    </template>
-                    <template if="{{ registerurl }}">
-                        <core-tooltip label="Clicker pour vous enregistrer" position="right">
-                            <core-icon-button src="iconsets/iconmonstr-save-7-icon.svg"
-                                              on-click="{{registerAuthClick}}"></core-icon-button>
-                        </core-tooltip>
-                    </template>
+        <template if="{{ localauthurl }}">
+            <div class="top-logindiv">
+                <paper-input id="username_input" name="login" floatingLabel label="Saisir votre email"
+                             class="loginUsername"
+                             type="email" value="{{emaillogin}}" required="false">
+                </paper-input>
+                <paper-input id="password_input" name="password" floatingLabel label="Saisir votre mot de passe"
+                             class="loginPassword"
+                             type="password" value="{{passwordlogin}}" required="false">
+                </paper-input>
+                <core-tooltip label="Loggez vous" position="right">
+                    <core-icon-button id="local_register_button" src="iconsets/iconmonstr-save-7-icon.svg"
+                                      on-click="{{localAuthClick}}" active="false"></core-icon-button>
+                </core-tooltip>
 
-                </div>
-            </form>
-        </section>
+            </div>
+        </template>
+        <div class="bottom-logindiv">
+            <template if="{{ googleauthurl }}">
+                <core-tooltip label="Loggez vous via google+" position="right">
+                    <core-icon-button src="iconsets/iconmonstr-google-plus-5-icon.svg"
+                                      on-click="{{gPlusAuthClick}}"></core-icon-button>
+                </core-tooltip>
+            </template>
+            <template if="{{ facebookauthurl }}">
+                <core-tooltip label="Loggez vous via facebook" position="right">
+                    <core-icon-button src="iconsets/iconmonstr-facebook-5-icon.svg"
+                                      on-click="{{facebookAuthClick}}"></core-icon-button>
+                </core-tooltip>
+            </template>
+            <template if="{{ twiterauthurl }}">
+                <core-tooltip label="Loggez vous via twitter" position="right">
+                    <core-icon-button src="iconsets/iconmonstr-twitter-5-icon.svg"
+                                      on-click="{{twitterAuthClick}}"></core-icon-button>
+                </core-tooltip>
+            </template>
+            <template if="{{ registerurl }}">
+                <core-tooltip label="Clicker pour vous enregistrer" position="right">
+                    <core-icon-button src="iconsets/iconmonstr-save-7-icon.svg"
+                                      on-click="{{registerAuthClick}}"></core-icon-button>
+                </core-tooltip>
+                <core-tooltip label="Changer mon mot de passe" position="right">
+                    <core-icon-button id="local_login_button" src="iconsets/iconmonstr-key-8-icon.svg"
+                                      on-click="{{changePasswordDialogClick}}"
+                                      active="false"></core-icon-button>
+                </core-tooltip>
+            </template>
+
         </div>
-        <div></div>
-        <content></content>
 
-    </template>
+    </section>
+    </div>
+    <div></div>
+    <content></content>
 
-    <script>
-        _.mixin(_.str.exports());
-        Polymer('knd-loginform', {
-            publish: {
-                localauthurl: null,
-                googleauthurl: null,
-                facebookauthurl: null,
-                twiterauthurl: null,
-                registerurl: null,
-                emaillogin: "",
-                passwordlogin: "",
-                formUsernameName: "username",
-                formpasswordname: "password",
-                observe: {
-                    emaillogin: 'validate',
-                    passwordlogin: 'validate'
-                }
+</template>
 
-            },
-            validate: function(oldValue, newValue) {
-                console.log("emailloginUpdate" + JSON.stringify(oldValue) + " - " + JSON.stringify(newValue));
-            },
-            /* do not seems to works ;-)*/
-            emailloginChanged: function () {
-                if ((typeof this.emaillogin != "undefined") ||
-                        (this.emaillogin.length < 8) ||
-                        (_.includes(this.emaillogin, "@"))) {
-                    this.$.username_input.require = true;
-                    this.$.local_login_button.active = false;
-                    console.log("emailloginChange");
-                    /**
-                     * @TODO check that it does work with auto filled form
-                     */
-                }
-            },
-            emailloginUpdated: function (observer, mutations) {
-                // getDistributedNodes() has new stuff.
-
-                // Monitor again.
-                console.log("emailloginUpdate" + JSON.stringify(observer) + " - " + JSON.stringify(mutations));
-            },
-            passwordloginChanged: function () {
-                if ((typeof this.passwordlogin != "undefined") ||
-                        this.passwordlogin.length < 8) {
-                    this.$.password_input.require = true;
-                    this.$.local_login_button.active = false;
-                    console.log("passwordloginChange");
-                    /**
-                     * @TODO check that it does work with auto filled form
-                     */
-                }
-            },/** */
-            postForm: function (path, params, method) {
-                method = method || "post"; // Set method to post by default if not specified.
-
-                // The rest of this code assumes you are not using a library.
-                // It can be made less wordy if you use one.
-                var form = document.createElement("form");
-                form.setAttribute("method", method);
-                form.setAttribute("action", path);
-
-                for (var key in params) {
-                    if (params.hasOwnProperty(key)) {
-                        var hiddenField = document.createElement("input");
-                        hiddenField.setAttribute("type", "hidden");
-                        hiddenField.setAttribute("name", key);
-                        hiddenField.setAttribute("value", params[key]);
-
-                        form.appendChild(hiddenField);
-                    }
-                }
-
-                document.body.appendChild(form);
-                form.submit();
-            },
-            getParams: function () {
-                params = {};
-                params[this.formpasswordname] = this.$.emaillogin;
-                params[this.formpasswordname] = this.$.passwordlogin;
-                return params;
-
-            },
-
-            localAuthClick: function () {
-                console.log("localAuthClick");
-                this.postForm(this.localauthurl, this.getParams, "post");
-            },
-            gPlusAuthClick: function () {
-                console.debug("gPlusAuthClick");
-                this.postForm(this.googleauthurl,{},"get");
-            },
-            facebookAuthClick: function () {
-                console.debug("facebookAuthClick");
-                this.postForm(this.facebookauthurl,{},"get");
-            },
-            twitterAuthClick: function () {
-                console.debug("twitterAuthClick");
-                this.postForm(this.twiterauthurl,{},"get");
-            },
-            registerAuthClick: function () {
-                console.debug("registerAuthClick");
-                //this.$.postForm(this.$.localauthurl, this.$.getRegisterParams, "post");
+<script>
+    _.mixin(_.str.exports());
+    Polymer('knd-loginform', {
+        publish: {
+            localauthurl: null,
+            googleauthurl: null,
+            facebookauthurl: null,
+            twiterauthurl: null,
+            registerurl: null,
+            emaillogin: "",
+            passwordlogin: "",
+            formUsernameName: "username",
+            formpasswordname: "password",
+            observe: {
+                emaillogin: 'validate',
+                passwordlogin: 'validate'
             }
-        })
-        ;
 
-    </script>
+        },
+        validate: function (oldValue, newValue) {
+            console.log("emailloginUpdate" + JSON.stringify(oldValue) + " - " + JSON.stringify(newValue));
+        },
+        /* do not seems to works ;-)*/
+        emailloginChanged: function () {
+            if ((typeof this.emaillogin != "undefined") ||
+                    (this.emaillogin.length < 8) ||
+                    (_.includes(this.emaillogin, "@"))) {
+                this.$.username_input.require = true;
+                this.$.local_login_button.active = false;
+                console.log("emailloginChange");
+                /**
+                 * @TODO check that it does work with auto filled form
+                 */
+            }
+        },
+        emailloginUpdated: function (observer, mutations) {
+            // getDistributedNodes() has new stuff.
+
+            // Monitor again.
+            console.log("emailloginUpdate" + JSON.stringify(observer) + " - " + JSON.stringify(mutations));
+        },
+        passwordloginChanged: function () {
+            if ((typeof this.passwordlogin != "undefined") ||
+                    this.passwordlogin.length < 8) {
+                this.$.password_input.require = true;
+                this.$.local_login_button.active = false;
+                console.log("passwordloginChange");
+                /**
+                 * @TODO check that it does work with auto filled form
+                 */
+            }
+        }, /** */
+        postForm: function (path, params, method) {
+            method = method || "post"; // Set method to post by default if not specified.
+
+            // The rest of this code assumes you are not using a library.
+            // It can be made less wordy if you use one.
+            var form = document.createElement("form");
+            form.setAttribute("method", method);
+            form.setAttribute("action", path);
+
+            for (var key in params) {
+                if (params.hasOwnProperty(key)) {
+                    var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", key);
+                    hiddenField.setAttribute("value", params[key]);
+
+                    form.appendChild(hiddenField);
+                }
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        },
+        getParams: function () {
+            params = {};
+            params[this.formpasswordname] = this.$.emaillogin;
+            params[this.formpasswordname] = this.$.passwordlogin;
+            return params;
+
+        },
+
+        localAuthClick: function () {
+            console.log("localAuthClick");
+            this.postForm(this.localauthurl, this.getParams, "post");
+        },
+        gPlusAuthClick: function () {
+            console.debug("gPlusAuthClick");
+            this.postForm(this.googleauthurl, {}, "get");
+        },
+        facebookAuthClick: function () {
+            console.debug("facebookAuthClick");
+            this.postForm(this.facebookauthurl, {}, "get");
+        },
+        twitterAuthClick: function () {
+            console.debug("twitterAuthClick");
+            this.postForm(this.twiterauthurl, {}, "get");
+        },
+        registerAuthClick: function () {
+            console.debug("registerAuthClick");
+            if (this.$.changeMailDialog.opened === true) {
+                this.changePasswordDialogClick();
+            }
+            if (this.$.registerDialog.opened) {
+                this.$.registerDialog.opened = false;
+            } else {
+                this.$.registerDialog.opened = true;
+            }
+            ;
+            var dialog = this.$.registerDialog.toggle();
+            //this.$.postForm(this.$.localauthurl, this.$.getRegisterParams, "post");
+        },
+        /**
+         *
+         */
+        changePasswordDialogClick: function () {
+            console.debug("changePasswordDialogClick");
+            if (this.$.registerDialog.opened) {
+                this.registerAuthClick();
+
+            }
+            if (this.$.changeMailDialog.opened) {
+                this.$.changeMailDialog.opened = false;
+            } else {
+                this.$.changeMailDialog.opened = true;
+            }
+            ;
+            var dialog = this.$.changeMailDialog.toggle();
+        },
+        sendPasswordRetriveClick: function () {
+            console.debug("sendPasswordRetriveClick");
+            //this.$.postForm(this.$.localauthurl, this.$.getRegisterParams, "post");
+        }
+
+
+
+    })
+    ;
+
+</script>
 
 </polymer-element>
