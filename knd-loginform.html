@@ -50,7 +50,7 @@ Element providing solution to no problem in particular.
 @homepage http://polymerlabs.github.io/seed-element
 -->
 <polymer-element name="knd-loginform"
-                 attributes="localauthurl googleauthurl facebookauthurl twiterauthurl signupurl sendpasswordretrievurl formUsernameName formpasswordname">
+                 attributes="localauthurl googleauthurl facebookauthurl twiterauthurl signupurl sendpasswordretrievurl formusernamename formpasswordname">
 
 <template>
 
@@ -58,7 +58,7 @@ Element providing solution to no problem in particular.
           href="knd-loginform.css"/>
     <paper-dialog id="changeMailDialog" heading="Changer mon mot de passe" transition="paper-dialog-transition-center">
         <p id="pdialogue">
-            <paper-input id="username_input" name="login" floatingLabel label="Saisir votre email"
+            <paper-input id="username_input" name="email" floatingLabel label="Saisir votre email"
                          class="loginUsername"
                          type="email" value="{{emaillogin}}" required="false">
             </paper-input>
@@ -68,7 +68,7 @@ Element providing solution to no problem in particular.
     </paper-dialog>
     <paper-dialog id="registerDialog" heading="Crée un compte" transition="paper-dialog-transition-center">
         <p id="pdialogue">
-            <paper-input id="username_signup_input" name="login" floatingLabel label="Saisir votre login"
+            <paper-input id="username_signup_input" name="email" floatingLabel label="Saisir votre login"
                          class="loginUsername"
                          type="email" value="{{emaillogin}}" required="false">
             </paper-input>
@@ -155,7 +155,7 @@ Element providing solution to no problem in particular.
             sendpasswordretrievurl: null,
             emaillogin: "",
             passwordlogin: "",
-            formUsernameName: "username",
+            formusernamename: "username",
             formpasswordname: "password",
             observe: {
                 emaillogin: 'validate',
@@ -220,11 +220,10 @@ Element providing solution to no problem in particular.
             form.submit();
         },
         getParams: function () {
-            params = {};
-            params[this.formpasswordname] = this.$.emaillogin;
-            params[this.formpasswordname] = this.$.passwordlogin;
+            var params = {};
+            params[this.formusernamename] = this.emaillogin;
+            params[this.formpasswordname] = this.passwordlogin;
             return params;
-
         },
 
         localAuthClick: function () {
@@ -276,12 +275,14 @@ Element providing solution to no problem in particular.
         },
         sendPasswordRetriveClick: function () {
             console.debug("sendPasswordRetriveClick");
-            this.postForm(this.sendpasswordretrievurl, this.getParams, "post", "get");
+            params = this.getParams();
+            this.postForm(this.sendpasswordretrievurl, params, "post");
             //this.$.postForm(this.$.localauthurl, this.$.getRegisterParams, "post");
         },
         sendSignupInfoClick: function () {
             console.debug("sendPasswordRetriveClick");
-            this.postForm(this.signupurl, this.getParams, "post", "get");
+            params = this.getParams();
+            this.postForm(this.signupurl, params, "post");
             //this.$.postForm(this.$.localauthurl, this.$.getRegisterParams, "post");
         }
 
